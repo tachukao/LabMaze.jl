@@ -1,0 +1,13 @@
+name = "LabMaze"
+uuid = "bba4e509-098c-4c3e-9e4f-ff6e34834d9e"
+authors = ["Ta-Chu Kao <tachu.kao@gmail.com>"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

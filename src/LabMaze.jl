@@ -77,10 +77,9 @@ end
 
 function draw_grid(grid::Grid{Hexa})
     a = 0.5
-    b = 0.5 * sqrt(3.)
+    b = 0.5 * sqrt(3.0)
     width = 0.5
     height = b * 2
-
 
     p = plot(; aspectratio=1, legend=false, axis=false, grid=false, ticks=false)
     function line!((x1, y1), (x2, y2))
@@ -112,7 +111,6 @@ function draw_grid(grid::Grid{Hexa})
 
     return p
 end
-
 
 include("dijkstra.jl")
 

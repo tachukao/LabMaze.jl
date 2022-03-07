@@ -30,6 +30,21 @@ function figure()
     return nothing
 end
 
+function shortest_path()
+    grid = RectGrid(4, 4)
+    recursive_backtracker!(grid)
+    remove_deadends!(grid, 1.0)
+    display(grid)
+    path, dists = dijkstra(grid[1, 1], grid[4, 4])
+    for (cell, d) in dists
+        println("Cell($(cell.row),$(cell.col)): $(d)")
+    end
+    println("path")
+    for (cell, d) in path
+        println("Cell($(cell.row),$(cell.col)): $(d)")
+    end
+end
+
 function hex()
     grid = HexaGrid(2, 3)
     recursive_backtracker!(grid)

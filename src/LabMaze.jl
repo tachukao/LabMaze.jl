@@ -113,4 +113,7 @@ function draw_grid(grid::Grid{Hexa})
     return p
 end
 
+
+include("dijkstra.jl")
+
 end

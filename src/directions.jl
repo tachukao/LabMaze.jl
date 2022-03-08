@@ -13,6 +13,8 @@ north(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 0, -1)
 south(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 0, 1)
 east(nrows, ncols, cell::Cell{Rect}) = _move(nrows, ncols, cell, 1, 0)
 west(nrows, ncols, cell::Cell{Rect}) = _move(nrows, ncols, cell, -1, 0)
+east(nrows, ncols, cell::Cell{Tria}) = _move(nrows, ncols, cell, 1, 0)
+west(nrows, ncols, cell::Cell{Tria}) = _move(nrows, ncols, cell, -1, 0)
 
 north_diagonal_y(cell::Cell{Hexa}) = iseven(cell.col) ? -1 : 0
 south_diagonal_y(cell::Cell{Hexa}) = iseven(cell.col) ? 0 : 1
@@ -34,6 +36,8 @@ north(grid::Grid, cell::Cell) = _move(grid, cell, 0, -1)
 south(grid::Grid, cell::Cell) = _move(grid, cell, 0, 1)
 east(grid::Grid{Rect}, cell::Cell{Rect}) = _move(grid, cell, 1, 0)
 west(grid::Grid{Rect}, cell::Cell{Rect}) = _move(grid, cell, -1, 0)
+east(grid::Grid{Tria}, cell::Cell{Tria}) = _move(grid, cell, 1, 0)
+west(grid::Grid{Tria}, cell::Cell{Tria}) = _move(grid, cell, -1, 0)
 
 function northwest(grid::Grid{Hexa}, cell::Cell{Hexa})
     return _move(grid, cell, -1, north_diagonal_y(cell))
@@ -51,7 +55,9 @@ end
 north(grid::Grid, row, col) = north(grid, grid[row, col])
 south(grid::Grid, row, col) = south(grid, grid[row, col])
 east(grid::Grid{Rect}, row, col) = east(grid, grid[row, col])
-west(grid::Grid{Rect}, row, col) = west(grid, grid[row, col])
+east(grid::Grid{Rect}, row, col) = east(grid, grid[row, col])
+west(grid::Grid{Tria}, row, col) = west(grid, grid[row, col])
+west(grid::Grid{Tria}, row, col) = west(grid, grid[row, col])
 
 northwest(grid::Grid{Hexa}, row, col) = northwest(grid, grid[row, col])
 northeast(grid::Grid{Hexa}, row, col) = northeast(grid, grid[row, col])

@@ -8,6 +8,84 @@ function line!((x1, y1), (x2, y2); opts...)
     return plot!([x1, x2], [y1, y2]; opts...)
 end
 
+function draw_grid(grid::Grid{Tria})
+    p = plot(; aspectratio=1, legend=false, axis=false, grid=false, ticks=false)
+
+    width = 1
+    half_width = 0.5 * width
+    height = sqrt(3) / 2
+    half_height = 0.5 * height
+
+    for (cond, color, linestyle) in [(true, :gray, :solid), (false, :black, :solid)]
+        for row in 1:(grid.nrows)
+            for col in 1:(grid.ncols)
+                cell = grid[row, col]
+                upright = iseven(cell.row + cell.col)
+                cx = half_width + cell.col * half_width
+                cy = half_height + cell.row * height
+                west_x = (cx - half_width)
+                mid_x = cx
+                east_x = cx + half_width
+
+                apex_y = upright ? -(cy - half_height) : -(cy + half_height)
+                base_y = upright ? -(cy + half_height) : -(cy - half_height)
+
+                if cond || !is_connected(cell, west(grid, cell))
+                    line!((west_x, base_y), (mid_x, apex_y); color, linestyle)
+                end
+                if cond || !is_connected(cell, east(grid, cell))
+                    line!((east_x, base_y), (mid_x, apex_y); color, linestyle)
+                end
+
+                ncond = (!upright && !is_connected(cell, north(grid, cell)))
+                scond = (upright && !is_connected(cell, south(grid, cell)))
+                if cond || ncond || scond
+                    line!((east_x, base_y), (west_x, base_y); color, linestyle)
+                end
+            end
+        end
+    end
+
+    return p
+end
+
+function draw_distance(::Type{Tria}, dists)
+    @info "draw path"
+
+    width = 1
+    half_width = 0.5 * width
+    height = sqrt(3) / 2
+    half_height = 0.5 * height
+
+    for (cell, d) in dists
+        println("Cell($(cell.row),$(cell.col)): $(d)")
+        cx = half_width + cell.col * half_width
+        cy = half_height + cell.row * height
+
+        x = cx
+        y = -cy
+        annotate!(x, y, "$(d)")
+    end
+end
+
+function draw_solution(::Type{Tria}, path)
+    @info "draw path"
+
+    width = 1
+    half_width = 0.5 * width
+    height = sqrt(3) / 2
+    half_height = 0.5 * height
+
+    for (cell, d) in path
+        println("Cell($(cell.row),$(cell.col)): $(d)")
+        cx = half_width + cell.col * half_width
+        cy = half_height + cell.row * height
+        x = cx
+        y = -cy
+        draw_circle(x, y, 0.15; color=:red, seriestype=[:shape], fillalpha=1.0)
+    end
+end
+
 function draw_grid(grid::Grid{Rect})
     p = plot(; aspectratio=1, legend=false, axis=false, grid=false, ticks=false)
 

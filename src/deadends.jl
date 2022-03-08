@@ -21,6 +21,9 @@ function remove_deadends!(grid::Grid, p::Float64)
     for cell in deadends
         if is_deadend(cell) & (rand() < p)
             nbs = filter(x -> !is_connected(cell, x), neighbors(grid, cell))
+            if isempty(nbs)
+                break
+            end
             best = filter(x -> is_deadend(x), nbs)
             if isempty(best)
                 best = nbs

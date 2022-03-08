@@ -22,14 +22,26 @@ function main()
     return nothing
 end
 
-function solve_rectangle(; periodic=false)
-    grid = !periodic ? RectGrid(4, 4) : PeriodicRectGrid(4, 4)
+function triangle(; periodic=false, nrows=4, ncols=4)
+    grid = !periodic ? TriaGrid(nrows, ncols) : PeriodicTriaGrid(nrows, ncols)
     recursive_backtracker!(grid)
     remove_deadends!(grid, 0.5)
     p = draw_grid(grid)
-    path, dists = dijkstra(grid[1, 1], grid[4, 4])
-    draw_distance(Rect, dists)
-    draw_solution(Rect, path)
+    display(p)
+    return nothing
+end
+
+function solve_triangle_astar(; periodic=false)
+    grid = !periodic ? TriaGrid(4, 4) : PeriodicTriaGrid(4, 4)
+    recursive_backtracker!(grid)
+    remove_deadends!(grid, 0.5)
+    p = draw_grid(grid)
+    function heuristic(x, goal)
+        return (x.col - goal.col)^2 + (x.row - goal.row)^2
+    end
+    path, dists = astar(grid[1, 1], grid[4, 4], heuristic)
+    draw_distance(Tria, dists)
+    draw_solution(Tria, path)
     display(p)
     return nothing
 end
@@ -39,6 +51,18 @@ function rectangle(; periodic=false, nrows=4, ncols=4)
     recursive_backtracker!(grid)
     display(grid)
     p = draw_grid(grid)
+    display(p)
+    return nothing
+end
+
+function solve_rectangle(; periodic=false)
+    grid = !periodic ? RectGrid(4, 4) : PeriodicRectGrid(4, 4)
+    recursive_backtracker!(grid)
+    remove_deadends!(grid, 0.5)
+    p = draw_grid(grid)
+    path, dists = dijkstra(grid[1, 1], grid[4, 4])
+    draw_distance(Rect, dists)
+    draw_solution(Rect, path)
     display(p)
     return nothing
 end

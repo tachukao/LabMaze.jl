@@ -7,5 +7,8 @@ include("shapes.jl")
 include("cell.jl")
 include("grid.jl")
 include("utils.jl")
+include("construct.jl")
 include("plotting.jl")
 include("dijkstra.jl")
+
+end

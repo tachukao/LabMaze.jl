@@ -46,9 +46,10 @@ function shortest_path()
 end
 
 function hex()
-    grid = HexaGrid(2, 3)
+    grid = HexaGrid(3, 5)
     recursive_backtracker!(grid)
-    display(grid)
+    p = draw_grid(grid)
+    display(p)
     return nothing
 end
 

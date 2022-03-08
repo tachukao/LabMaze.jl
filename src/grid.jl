@@ -15,7 +15,11 @@ function Grid(T::Type{S}, nrows, ncols) where {S<:Shape}
 end
 
 RectGrid(nrows, ncols)::Grid{Rect} = Grid(Rect, nrows, ncols)
-HexaGrid(nrows, ncols)::Grid{Hexa} = Grid(Hexa, nrows, ncols)
+
+function HexaGrid(nrows, ncols)::Grid{Hexa}
+    @assert iseven(ncols)
+    return Grid(Hexa, nrows, ncols)
+end
 
 function Base.getindex(grid::Grid, i::Int64, j::Int64)
     return grid.cells[i, j]
@@ -38,28 +42,47 @@ end
 
 north(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 0, -1)
 south(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 0, 1)
-east(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 1, 0)
-west(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, -1, 0)
+east(nrows, ncols, cell::Cell{Rect}) = _move(nrows, ncols, cell, 1, 0)
+west(nrows, ncols, cell::Cell{Rect}) = _move(nrows, ncols, cell, -1, 0)
 
-northwest(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, -1, -1)
-northeast(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 1, -1)
-southwest(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, -1, 1)
-southeast(nrows, ncols, cell::Cell) = _move(nrows, ncols, cell, 1, 1)
+north_diagonal_y(cell::Cell{Hexa}) = iseven(cell.col) ? -1 : 0
+south_diagonal_y(cell::Cell{Hexa}) = iseven(cell.col) ? 0 : 1
+
+function northwest(nrows, ncols, cell::Cell{Hexa})
+    return _move(nrows, ncols, cell, -1, north_diagonal_y(cell))
+end
+function northeast(nrows, ncols, cell::Cell{Hexa})
+    return _move(nrows, ncols, cell, 1, north_diagonal_y(cell))
+end
+function southwest(nrows, ncols, cell::Cell{Hexa})
+    return _move(nrows, ncols, cell, -1, south_diagonal_y(cell))
+end
+function southeast(nrows, ncols, cell::Cell{Hexa})
+    return _move(nrows, ncols, cell, 1, south_diagonal_y(cell))
+end
 
 north(grid::Grid, cell::Cell) = _move(grid, cell, 0, -1)
 south(grid::Grid, cell::Cell) = _move(grid, cell, 0, 1)
-east(grid::Grid, cell::Cell) = _move(grid, cell, 1, 0)
-west(grid::Grid, cell::Cell) = _move(grid, cell, -1, 0)
+east(grid::Grid{Rect}, cell::Cell{Rect}) = _move(grid, cell, 1, 0)
+west(grid::Grid{Rect}, cell::Cell{Rect}) = _move(grid, cell, -1, 0)
 
-northwest(grid::Grid{Hexa}, cell::Cell{Hexa}) = _move(grid, cell, -1, -1)
-northeast(grid::Grid{Hexa}, cell::Cell{Hexa}) = _move(grid, cell, 1, -1)
-southwest(grid::Grid{Hexa}, cell::Cell{Hexa}) = _move(grid, cell, -1, 1)
-southeast(grid::Grid{Hexa}, cell::Cell{Hexa}) = _move(grid, cell, 1, 1)
+function northwest(grid::Grid{Hexa}, cell::Cell{Hexa})
+    return _move(grid, cell, -1, north_diagonal_y(cell))
+end
+function northeast(grid::Grid{Hexa}, cell::Cell{Hexa})
+    return _move(grid, cell, 1, north_diagonal_y(cell))
+end
+function southwest(grid::Grid{Hexa}, cell::Cell{Hexa})
+    return _move(grid, cell, -1, south_diagonal_y(cell))
+end
+function southeast(grid::Grid{Hexa}, cell::Cell{Hexa})
+    return _move(grid, cell, 1, south_diagonal_y(cell))
+end
 
 north(grid::Grid, row, col) = north(grid, grid[row, col])
 south(grid::Grid, row, col) = south(grid, grid[row, col])
-east(grid::Grid, row, col) = east(grid, grid[row, col])
-west(grid::Grid, row, col) = west(grid, grid[row, col])
+east(grid::Grid{Rect}, row, col) = east(grid, grid[row, col])
+west(grid::Grid{Rect}, row, col) = west(grid, grid[row, col])
 
 northwest(grid::Grid{Hexa}, row, col) = northwest(grid, grid[row, col])
 northeast(grid::Grid{Hexa}, row, col) = northeast(grid, grid[row, col])
@@ -74,8 +97,6 @@ function neighbors(grid::Grid{Hexa}, cell::Cell{Hexa})
     return [
         north(grid, cell),
         south(grid, cell),
-        east(grid, cell),
-        west(grid, cell),
         northwest(grid, cell),
         northeast(grid, cell),
         southwest(grid, cell),

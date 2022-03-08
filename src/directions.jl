@@ -55,8 +55,8 @@ end
 north(grid::Grid, row, col) = north(grid, grid[row, col])
 south(grid::Grid, row, col) = south(grid, grid[row, col])
 east(grid::Grid{Rect}, row, col) = east(grid, grid[row, col])
-east(grid::Grid{Rect}, row, col) = east(grid, grid[row, col])
-west(grid::Grid{Tria}, row, col) = west(grid, grid[row, col])
+west(grid::Grid{Rect}, row, col) = west(grid, grid[row, col])
+east(grid::Grid{Tria}, row, col) = east(grid, grid[row, col])
 west(grid::Grid{Tria}, row, col) = west(grid, grid[row, col])
 
 northwest(grid::Grid{Hexa}, row, col) = northwest(grid, grid[row, col])

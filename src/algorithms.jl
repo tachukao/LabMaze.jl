@@ -1,4 +1,4 @@
-function distances(src::Cell)
+function dijkstra_distances(src::Cell)
     dists = Dict{Cell,Int64}()
     dists[src] = 0
     frontier = [src]
@@ -18,7 +18,7 @@ function distances(src::Cell)
 end
 
 function dijkstra(src::Cell, target::Cell)
-    dists = distances(src)
+    dists = dijkstra_distances(src)
     current = target
     breadcrumbs = Dict{Cell,Int64}()
     breadcrumbs[current] = dists[current]

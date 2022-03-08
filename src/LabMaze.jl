@@ -14,7 +14,7 @@ include("hexagon.jl")
 include("construct.jl")
 include("deadends.jl")
 include("plotting.jl")
-include("dijkstra.jl")
+include("algorithms.jl")
 include("utils.jl")
 
 end

@@ -1,6 +1,6 @@
 module LabMaze
 
-using Random, Plots, Logging
+using Random, Plots, Logging, DataStructures
 
 include("exports.jl")
 include("shapes.jl")

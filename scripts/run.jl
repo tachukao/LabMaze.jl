@@ -63,4 +63,19 @@ function solve_hexagon(; periodic=false)
     return nothing
 end
 
+function solve_hexagon_astar(; periodic=false)
+    grid = !periodic ? HexaGrid(4, 4) : PeriodicHexaGrid(4, 4)
+    recursive_backtracker!(grid)
+    remove_deadends!(grid, 0.5)
+    p = draw_grid(grid)
+    function heuristic(x, goal)
+        return (x.col - goal.col)^2 + (x.row - goal.row)^2
+    end
+    path, dists = astar(grid[1, 1], grid[4, 4], heuristic)
+    draw_distance(Hexa, dists)
+    draw_solution(Hexa, path)
+    display(p)
+    return nothing
+end
+
 end

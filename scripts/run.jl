@@ -21,15 +21,6 @@ function main()
     return nothing
 end
 
-function figure()
-    grid = RectGrid(4, 4)
-    recursive_backtracker!(grid)
-    display(grid)
-    p = draw_grid(grid)
-    display(p)
-    return nothing
-end
-
 function shortest_path()
     grid = RectGrid(4, 4)
     recursive_backtracker!(grid)
@@ -45,8 +36,17 @@ function shortest_path()
     end
 end
 
-function hex()
-    grid = HexaGrid(3, 5)
+function rectangle(; periodic=false, nrows=4, ncols=4)
+    grid = !periodic ? RectGrid(nrows, ncols) : PeriodicRectGrid(nrows, ncols)
+    recursive_backtracker!(grid)
+    display(grid)
+    p = draw_grid(grid)
+    display(p)
+    return nothing
+end
+
+function hexagon(; periodic=false, nrows=3, ncols=4)
+    grid = !periodic ? HexaGrid(nrows, ncols) : PeriodicHexaGrid(nrows, ncols)
     recursive_backtracker!(grid)
     p = draw_grid(grid)
     display(p)

@@ -1,5 +1,6 @@
 module Run
 using LabMaze
+using Plots
 
 function main()
     grid = RectGrid(4, 4)
@@ -21,19 +22,16 @@ function main()
     return nothing
 end
 
-function shortest_path()
-    grid = RectGrid(4, 4)
+function solve_rectangle(; periodic=false)
+    grid = !periodic ? RectGrid(4, 4) : PeriodicRectGrid(4, 4)
     recursive_backtracker!(grid)
-    remove_deadends!(grid, 1.0)
-    display(grid)
+    remove_deadends!(grid, 0.5)
+    p = draw_grid(grid)
     path, dists = dijkstra(grid[1, 1], grid[4, 4])
-    for (cell, d) in dists
-        println("Cell($(cell.row),$(cell.col)): $(d)")
-    end
-    println("path")
-    for (cell, d) in path
-        println("Cell($(cell.row),$(cell.col)): $(d)")
-    end
+    draw_distance(Rect, dists)
+    draw_solution(Rect, path)
+    display(p)
+    return nothing
 end
 
 function rectangle(; periodic=false, nrows=4, ncols=4)
@@ -49,6 +47,18 @@ function hexagon(; periodic=false, nrows=3, ncols=4)
     grid = !periodic ? HexaGrid(nrows, ncols) : PeriodicHexaGrid(nrows, ncols)
     recursive_backtracker!(grid)
     p = draw_grid(grid)
+    display(p)
+    return nothing
+end
+
+function solve_hexagon(; periodic=false)
+    grid = !periodic ? HexaGrid(4, 4) : PeriodicHexaGrid(4, 4)
+    recursive_backtracker!(grid)
+    remove_deadends!(grid, 0.5)
+    p = draw_grid(grid)
+    path, dists = dijkstra(grid[1, 1], grid[4, 4])
+    draw_distance(Hexa, dists)
+    draw_solution(Hexa, path)
     display(p)
     return nothing
 end

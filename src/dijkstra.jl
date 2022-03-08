@@ -31,5 +31,9 @@ function dijkstra(src::Cell, target::Cell)
             end
         end
     end
-    return breadcrumbs, dists
+
+    path = sort(collect(breadcrumbs); by=x -> x[2])
+    return path, dists
 end
+
+function astar(src::Cell, goal::Cell, heuristic::Function) end

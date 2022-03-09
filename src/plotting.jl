@@ -58,7 +58,7 @@ function draw_distance(::Type{Tria}, dists)
     half_height = 0.5 * height
 
     for (cell, d) in dists
-        println("Cell($(cell.row),$(cell.col)): $(d)")
+        @info cell d
         cx = half_width + cell.col * half_width
         cy = half_height + cell.row * height
 
@@ -77,7 +77,7 @@ function draw_solution(::Type{Tria}, path)
     half_height = 0.5 * height
 
     for (cell, d) in path
-        println("Cell($(cell.row),$(cell.col)): $(d)")
+        @info cell d
         cx = half_width + cell.col * half_width
         cy = half_height + cell.row * height
         x = cx
@@ -119,7 +119,7 @@ function draw_distance(::Type{Rect}, dists)
     @info "draw path"
 
     for (cell, d) in dists
-        println("Cell($(cell.row),$(cell.col)): $(d)")
+        @info cell d
         x = cell.col + 0.5
         y = -(cell.row - 0.5)
         annotate!(x, y, "$(d)")
@@ -130,7 +130,7 @@ function draw_solution(::Type{Rect}, path)
     @info "draw path"
 
     for (cell, d) in path
-        println("Cell($(cell.row),$(cell.col)): $(d)")
+        @info cell d
         x = cell.col + 0.5
         y = -(cell.row - 0.5)
         draw_circle(x, y, 0.2; color=:red, seriestype=[:shape], fillalpha=1.0)
@@ -140,7 +140,6 @@ end
 function draw_grid(grid::Grid{Hexa})
     a = 0.5
     b = 0.5 * sqrt(3.0)
-    width = 0.5
     height = b * 2
 
     p = plot(; aspectratio=1, legend=false, axis=false, grid=false, ticks=false)
@@ -197,8 +196,7 @@ function draw_distance(::Type{Hexa}, dists)
     height = b * 2
 
     for (cell, d) in dists
-        println("Cell($(cell.row),$(cell.col)): $(d)")
-
+        @info cell d
         cx = 1 + 3 * cell.col * a
         cy = b + cell.row * height
         if isodd(cell.col)
@@ -218,7 +216,7 @@ function draw_solution(::Type{Hexa}, path)
     height = b * 2
 
     for (cell, d) in path
-        println("Cell($(cell.row),$(cell.col)): $(d)")
+        @info cell d
         cx = 1 + 3 * cell.col * a
         cy = b + cell.row * height
         if isodd(cell.col)

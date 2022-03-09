@@ -133,7 +133,7 @@ function draw_solution(::Type{Rect}, path)
         println("Cell($(cell.row),$(cell.col)): $(d)")
         x = cell.col + 0.5
         y = -(cell.row - 0.5)
-        draw_circle(x, y, 0.1; color=:red, seriestype=[:shape], fillalpha=1.0)
+        draw_circle(x, y, 0.2; color=:red, seriestype=[:shape], fillalpha=1.0)
     end
 end
 

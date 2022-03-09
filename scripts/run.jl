@@ -38,6 +38,8 @@ function solve_triangle_astar(; periodic=false)
     draw_distance(Tria, dists)
     draw_solution(Tria, path)
     display(p)
+    suffix = periodic ? "_periodic" : ""
+    savefig(p, "imgs/triangle$(suffix).png")
     return nothing
 end
 
@@ -59,6 +61,8 @@ function solve_rectangle(; periodic=false)
     draw_distance(Rect, dists)
     draw_solution(Rect, path)
     display(p)
+    suffix = periodic ? "_periodic" : ""
+    savefig(p, "imgs/rectangle$(suffix).png")
     return nothing
 end
 
@@ -79,6 +83,8 @@ function solve_hexagon(; periodic=false)
     draw_distance(Hexa, dists)
     draw_solution(Hexa, path)
     display(p)
+    suffix = periodic ? "_periodic" : ""
+    savefig(p, "imgs/hexagon$(suffix).png")
     return nothing
 end
 

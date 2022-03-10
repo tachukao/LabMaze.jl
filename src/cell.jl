@@ -4,16 +4,16 @@ struct Cell{T<:Shape}
     connections::Set{Cell{T}}
 end
 
-function Cell(T::Type{S}, row::Int, col::Int) where S <: Shape
+function Cell(T::Type{S}, row::Int, col::Int) where {S<:Shape}
     return Cell(row, col, Set{Cell{T}}())
 end
 
-function Cell(T::Type{S}; row::Int, col::Int) where S <: Shape
+function Cell(T::Type{S}; row::Int, col::Int) where {S<:Shape}
     return Cell(T, row, col)
 end
 
-function Base.display(cell::Cell)
-    print("Cell($(cell.row), $(cell.col))\n")
+function Base.show(io::IO, cell::Cell)
+    print(io, "Cell($(cell.row),$(cell.col))")
     return nothing
 end
 

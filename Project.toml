@@ -4,13 +4,14 @@ authors = ["Ta-Chu Kao <tachu.kao@gmail.com>"]
 version = "0.1.0"
 
 [deps]
-GraphPlot = "a2cc645c-3eea-5389-862e-a155d0052231"
-Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
+DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
 Plots = "1"
+DataStructures = "0.18"
 julia = "1"
 
 [extras]
